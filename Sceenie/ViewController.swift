@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var recordBtn: UIButton!
     
     var recorder = RPScreenRecorder.shared()
+    private var isRecording = false
 
     @IBAction func imagePicked(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
@@ -34,6 +35,44 @@ class ViewController: UIViewController {
     }
     
     @IBAction func recordBtnWasPressed(_ sender: Any) {
+        if !isRecording {
+            startRecording()
+        } else {
+  //          stopRecording()
+        }
+    }
+    
+    func startRecording() {
+        guard recorder.isAvailable else {
+            print("recording is not avaiable at this time.")
+            return
+        }
+        
+        if micToggle.isOn {
+            recorder.isMicrophoneEnabled = true
+        } else {
+            recorder.isMicrophoneEnabled = false
+        }
+        
+        recorder.startRecording { (error) in
+            guard error == nil else {
+                print("there was an error starting the recording")
+                return
+            }
+            
+            self.micToggle.isEnabled = false
+            self.recordBtn.setTitleColor(#colorLiteral(red: 0.8957869411, green: 0.2001414299, blue: 0.1402733624, alpha: 1), for: .normal)
+            self.recordBtn.setTitle("Stop", for: .normal)
+            self.statusLbl.text = "Recording..."
+            self.statusLbl.textColor = #colorLiteral(red: 0.8957869411, green: 0.2001414299, blue: 0.1402733624, alpha: 1)
+            self.isRecording = true
+            
+        }
     }
 }
+
+
+
+
+
 
