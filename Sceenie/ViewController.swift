@@ -16,8 +16,21 @@ class ViewController: UIViewController {
     @IBOutlet weak var micToggle: UISwitch!
     @IBOutlet weak var recordBtn: UIButton!
     
+    var recorder = RPScreenRecorder.shared()
 
     @IBAction func imagePicked(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            selectedImageView.image = UIImage(named: "skate")
+        case 1:
+            selectedImageView.image = UIImage(named: "food")
+        case 2:
+            selectedImageView.image = UIImage(named: "cat")
+        case 3:
+            selectedImageView.image = UIImage(named: "nature")
+        default:
+            selectedImageView.image = UIImage(named: "skate")
+        }
     }
     
     @IBAction func recordBtnWasPressed(_ sender: Any) {
